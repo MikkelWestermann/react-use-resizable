@@ -159,15 +159,15 @@ export const useResizable = (options: ResizableProps) => {
 
     const handleDragEnd = useMemo(() => {
       return (
-        handleMouseMove: (e: MouseEvent) => void,
-        handleTouchMove: (e: TouchEvent) => void,
+        handleMouseMoveInstance: (e: MouseEvent) => void,
+        handleTouchMoveInstance: (e: TouchEvent) => void,
         startHeight: number,
         startWidth: number,
       ) => {
         function dragHandler(e: MouseEvent | TouchEvent) {
-          document.removeEventListener('mousemove', handleMouseMove);
+          document.removeEventListener('mousemove', handleMouseMoveInstance);
           document.removeEventListener('mouseup', dragHandler);
-          document.removeEventListener('touchmove', handleTouchMove);
+          document.removeEventListener('touchmove', handleTouchMoveInstance);
           document.removeEventListener('touchend', dragHandler);
           if (onDragEnd) {
             const currentWidth = parent?.current!.clientWidth || 0;
