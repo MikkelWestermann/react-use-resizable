@@ -109,8 +109,11 @@ export const useResizable = (options: ResizableProps) => {
           if (roundedHeight <= 0) {
             roundedHeight = interval;
           }
-          if (roundedHeight >= maxHeight || roundedHeight <= minHeight) {
+          if (roundedHeight >= maxHeight) {
             roundedHeight = maxHeight;
+          }
+          if (roundedHeight <= minHeight) {
+            roundedHeight = minHeight;
           }
         }
 
@@ -121,8 +124,11 @@ export const useResizable = (options: ResizableProps) => {
           if (roundedWidth <= 0) {
             roundedWidth = interval;
           }
-          if (roundedWidth >= maxWidth || roundedWidth <= minWidth) {
+          if (roundedWidth >= maxWidth) {
             roundedWidth = maxWidth;
+          }
+          if (roundedWidth <= minWidth) {
+            roundedWidth = minWidth;
           }
         }
 
