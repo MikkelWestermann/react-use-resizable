@@ -153,6 +153,7 @@ export const useResizable = (options: ResizableProps) => {
     };
 
     const handleTouchMove: HandleTouchMove = (startHeight, startY, startWidth, startX) => (e) => {
+      e.preventDefault();
       handleMove(e.touches[0].clientY, startHeight, startY, e.touches[0].clientX, startWidth, startX);
     };
 
@@ -196,7 +197,7 @@ export const useResizable = (options: ResizableProps) => {
 
       document.addEventListener('mousemove', mouseMoveHandler);
       document.addEventListener('mouseup', dragEndHandler);
-      document.addEventListener('touchmove', touchMoveHandler);
+      document.addEventListener("touchmove", touchMoveHandler, { passive: false });
       document.addEventListener('touchend', dragEndHandler);
     };
 
