@@ -76,8 +76,8 @@ export const useResizable = (options: ResizableProps) => {
     const {
       parent = parentRef,
       interval = 1,
-      maxHeight = 100,
-      maxWidth = 100,
+      maxHeight = Number.MAX_SAFE_INTEGER,
+      maxWidth = Number.MAX_SAFE_INTEGER,
       reverse,
       lockHorizontal,
       lockVertical,
