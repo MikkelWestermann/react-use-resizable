@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 
 type SharedProps = {
   maxHeight?: number;
@@ -88,65 +88,63 @@ export const useResizable = (options: ResizableProps) => {
       disabled = false,
     } = { ...props, ...handleProps };
 
-    const handleMove = useMemo(() => {
-      return (
-        clientY: number,
-        startHeight: number,
-        startY: number,
-        clientX: number,
-        startWidth: number,
-        startX: number,
-      ) => {
-        if (disabled) return;
-        const currentWidth = parent?.current!.clientWidth || 0;
-        const currentHeight = parent?.current!.clientHeight || 0;
-        let roundedHeight = currentHeight;
-        let roundedWidth = currentWidth;
-        if (!lockVertical) {
-          const newHeight = startHeight + (clientY - startY) * (reverse ? -1 : 1);
-          // Round height to nearest interval
-          roundedHeight = Math.round(newHeight / interval) * interval;
-          if (roundedHeight <= 0) {
-            roundedHeight = interval;
-          }
-          if (roundedHeight >= maxHeight) {
-            roundedHeight = maxHeight;
-          }
-          if (roundedHeight <= minHeight) {
-            roundedHeight = minHeight;
-          }
+    const handleMove = (
+      clientY: number,
+      startHeight: number,
+      startY: number,
+      clientX: number,
+      startWidth: number,
+      startX: number,
+    ) => {
+      if (disabled) return;
+      const currentWidth = parent?.current?.clientWidth || 0;
+      const currentHeight = parent?.current?.clientHeight || 0;
+      let roundedHeight = currentHeight;
+      let roundedWidth = currentWidth;
+      if (!lockVertical) {
+        const newHeight = startHeight + (clientY - startY) * (reverse ? -1 : 1);
+        // Round height to nearest interval
+        roundedHeight = Math.round(newHeight / interval) * interval;
+        if (roundedHeight <= 0) {
+          roundedHeight = interval;
         }
+        if (roundedHeight >= maxHeight) {
+          roundedHeight = maxHeight;
+        }
+        if (roundedHeight <= minHeight) {
+          roundedHeight = minHeight;
+        }
+      }
 
-        if (!lockHorizontal) {
-          const newWidth = startWidth + (clientX - startX) * (reverse ? -1 : 1);
-          // Round height to nearest interval
-          roundedWidth = Math.round(newWidth / interval) * interval;
-          if (roundedWidth <= 0) {
-            roundedWidth = interval;
-          }
-          if (roundedWidth >= maxWidth) {
-            roundedWidth = maxWidth;
-          }
-          if (roundedWidth <= minWidth) {
-            roundedWidth = minWidth;
-          }
+      if (!lockHorizontal) {
+        const newWidth = startWidth + (clientX - startX) * (reverse ? -1 : 1);
+        // Round height to nearest interval
+        roundedWidth = Math.round(newWidth / interval) * interval;
+        if (roundedWidth <= 0) {
+          roundedWidth = interval;
         }
+        if (roundedWidth >= maxWidth) {
+          roundedWidth = maxWidth;
+        }
+        if (roundedWidth <= minWidth) {
+          roundedWidth = minWidth;
+        }
+      }
 
-        if (parent?.current) {
-          parent.current.style.width = `${roundedWidth}px`;
-          parent.current.style.height = `${roundedHeight}px`;
-        }
+      if (parent?.current) {
+        parent.current.style.width = `${roundedWidth}px`;
+        parent.current.style.height = `${roundedHeight}px`;
+      }
 
-        if (onMove) {
-          onMove({
-            newHeight: roundedHeight,
-            heightDiff: roundedHeight - currentHeight,
-            newWidth: roundedWidth,
-            widthDiff: roundedWidth - currentWidth,
-          });
-        }
-      };
-    }, [parent, maxWidth, maxHeight, minWidth, minHeight, interval, lockHorizontal, lockVertical, reverse, onMove]);
+      if (onMove) {
+        onMove({
+          newHeight: roundedHeight,
+          heightDiff: roundedHeight - currentHeight,
+          newWidth: roundedWidth,
+          widthDiff: roundedWidth - currentWidth,
+        });
+      }
+    };
 
     const handleMouseMove: HandleMouseMove = (startHeight, startY, startWidth, startX) => (e) => {
       handleMove(e.clientY, startHeight, startY, e.clientX, startWidth, startX);
@@ -157,33 +155,31 @@ export const useResizable = (options: ResizableProps) => {
       handleMove(e.touches[0].clientY, startHeight, startY, e.touches[0].clientX, startWidth, startX);
     };
 
-    const handleDragEnd = useMemo(() => {
-      return (
-        handleMouseMoveInstance: (e: MouseEvent) => void,
-        handleTouchMoveInstance: (e: TouchEvent) => void,
-        startHeight: number,
-        startWidth: number,
-      ) => {
-        function dragHandler(e: MouseEvent | TouchEvent) {
-          document.removeEventListener('mousemove', handleMouseMoveInstance);
-          document.removeEventListener('mouseup', dragHandler);
-          document.removeEventListener('touchmove', handleTouchMoveInstance);
-          document.removeEventListener('touchend', dragHandler);
-          if (onDragEnd) {
-            const currentWidth = parent?.current!.clientWidth || 0;
-            const currentHeight = parent?.current!.clientHeight || 0;
-            onDragEnd({
-              newHeight: currentHeight,
-              heightDiff: currentHeight - startHeight,
-              newWidth: currentWidth,
-              widthDiff: currentWidth - startWidth,
-            });
-          }
+    const handleDragEnd = (
+      handleMouseMoveInstance: (e: MouseEvent) => void,
+      handleTouchMoveInstance: (e: TouchEvent) => void,
+      startHeight: number,
+      startWidth: number,
+    ) => {
+      function dragHandler() {
+        document.removeEventListener('mousemove', handleMouseMoveInstance);
+        document.removeEventListener('mouseup', dragHandler);
+        document.removeEventListener('touchmove', handleTouchMoveInstance);
+        document.removeEventListener('touchend', dragHandler);
+        if (onDragEnd) {
+          const currentWidth = parent?.current?.clientWidth || 0;
+          const currentHeight = parent?.current?.clientHeight || 0;
+          onDragEnd({
+            newHeight: currentHeight,
+            heightDiff: currentHeight - startHeight,
+            newWidth: currentWidth,
+            widthDiff: currentWidth - startWidth,
+          });
         }
+      }
 
-        return dragHandler;
-      };
-    }, [parent, handleMouseMove, handleTouchMove]);
+      return dragHandler;
+    };
 
     const handleDown = (clientY: number, clientX: number) => {
       const startHeight = parent?.current?.clientHeight || 0;
@@ -197,7 +193,7 @@ export const useResizable = (options: ResizableProps) => {
 
       document.addEventListener('mousemove', mouseMoveHandler);
       document.addEventListener('mouseup', dragEndHandler);
-      document.addEventListener("touchmove", touchMoveHandler, { passive: false });
+      document.addEventListener('touchmove', touchMoveHandler, { passive: false });
       document.addEventListener('touchend', dragEndHandler);
     };
 
