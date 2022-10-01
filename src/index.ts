@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 type SharedProps = {
   maxHeight?: number;
@@ -212,10 +212,10 @@ export const useResizable = (options: ResizableProps) => {
     };
 
     return {
-      onMouseDown: (e: MouseEvent) => {
+      onMouseDown: (e: React.MouseEvent) => {
         handleDown(e.clientY, e.clientX);
       },
-      onTouchStart: (e: TouchEvent) => {
+      onTouchStart: (e: React.TouchEvent) => {
         e.preventDefault();
         handleDown(e.touches[0].clientY, e.touches[0].clientX);
       },
