@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>useReactResizable</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts - Lato & Source code pro-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+    }
+
+    code {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.9rem!important;
+      background-color: #e2e8f0;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+    }
+  </style>
+
+</head>
+<body class="flex flex-col items-center">
+  <main class="w-full max-w-screen-lg pt-8 space-y-8">
+    <h1 class="text-3xl">useReactResizable</h1>
+
+    <section id="intro" class="space-y-3">
+      <p>
+        A React hook to make any element resizable. It has no dependencies (except React) and is very lightweight.
+      </p>
+      <p>
+        This site is a collection of examples, all of which you can find on CodeSandbox <a class="text-blue-600 hover:text-blue-400" href="https://codesandbox.io/s/agitated-gould-rx7igt">here</a>. For simplicity the examples are using TailwindCSS, but you can use any CSS framework or none at all - it's all up to you.
+      </p>
+    </section>
+    
+    <section id="basic" class="space-y-3">
+      <h2 class="text-2xl">Basic</h2>
+      <p>This section outlines some basic examples of what the <code>useReactResizable</code> hook can be used for.</p>
+
+      <iframe src="https://codesandbox.io/embed/agitated-gould-rx7igt?codemirror=1&fontsize=14&hidenavigation=1&initialpath=%2Fbasic&module=%2Fsrc%2Fexamples%2Fbasic.tsx&theme=dark&view=preview"
+        style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+        title="agitated-gould-rx7igt"
+        allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+        sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+      ></iframe>
+    </section>
+
+    <section id="multi-handle" class="space-y-3">
+      <h2 class="text-2xl">Multiple handles</h2>
+
+      <p>
+        The hook is very flexible and can be used to create any kind of resizable element. This example shows how to create a resizable element with multiple handles. The implementation has two normal handles and two reverse handles (the reverse handles are used to resize the element in the opposite direction and offset the position of the element).
+      </p>
+
+      <iframe src="https://codesandbox.io/embed/agitated-gould-rx7igt?codemirror=1&fontsize=14&hidenavigation=1&initialpath=%2Fmulti-handle&module=%2Fsrc%2Fexamples%2Fmulti-handle.tsx&theme=dark&view=preview"
+        style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+        title="agitated-gould-rx7igt"
+        allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+        sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+      ></iframe>
+    </section>
+
+    <section id="layout" class="space-y-3">
+      <h2 class="text-2xl">Layout</h2>
+
+      <div class="bg-gray-100">
+        <p class="bg-gray-300 px-2 py-1"><strong>Notice</strong></p>
+        <p class="p-4">
+          This example is just to show how the hook can be used, and is not necessarily a good way to create a layout.
+        </p>
+      </div>
+
+      <p>
+        This example shows how to use the hook to create a resizable layout. The layout is made up of a footer, a sidebar on either side and a content area. The sidebars and footer are resizable and the content area is fixed.
+      </p>
+
+      <iframe src="https://codesandbox.io/embed/agitated-gould-rx7igt?codemirror=1&fontsize=14&hidenavigation=1&initialpath=%2Flayout&module=%2Fsrc%2Fexamples%2Flayout.tsx&theme=dark&view=preview"
+        style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+        title="agitated-gould-rx7igt"
+        allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+        sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+      ></iframe>
+    </section>
+  </main>
+
+  <footer class="text-center bg-gray-100 p-4 mt-32 w-full max-w-screen-lg">
+    <p>
+      Made by <a class="text-blue-600 hover:text-blue-400" href="https://github.com/MikkelWestermann">Mikkel Westermann</a>
+    </p>
+  </footer>
+</body>
+</html>
