@@ -124,6 +124,10 @@ export const useResizable = (options: ResizableProps) => {
         if (roundedHeight <= minHeight) {
           roundedHeight = minHeight;
         }
+
+        if (parent?.current) {
+          parent.current.style.height = `${roundedHeight}px`;
+        }
       }
 
       if (!lockHorizontal) {
@@ -139,11 +143,10 @@ export const useResizable = (options: ResizableProps) => {
         if (roundedWidth <= minWidth) {
           roundedWidth = minWidth;
         }
-      }
 
-      if (parent?.current) {
-        parent.current.style.width = `${roundedWidth}px`;
-        parent.current.style.height = `${roundedHeight}px`;
+        if (parent?.current) {
+          parent.current.style.width = `${roundedWidth}px`;
+        }
       }
 
       if (onMove) {
