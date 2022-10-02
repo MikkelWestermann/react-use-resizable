@@ -36,14 +36,24 @@ type HandleMouseMove = (
   startY: number,
   startWidth: number,
   startX: number,
-) => (e: MouseEvent) => void;
+) => (e: Event) => void;
 
 type HandleTouchMove = (
   startHeight: number,
   startY: number,
   startWidth: number,
   startX: number,
-) => (e: TouchEvent) => void;
+) => (e: Event) => void;
+
+enum MoveEvent {
+  MouseMove = 'mousemove',
+  TouchMove = 'touchmove',
+}
+
+enum EndEvent {
+  MouseUp = 'mouseup',
+  TouchEnd = 'touchend',
+}
 
 const defaultProps: ResizableProps = {
   interval: 1,
@@ -146,26 +156,27 @@ export const useResizable = (options: ResizableProps) => {
       }
     };
 
-    const handleMouseMove: HandleMouseMove = (startHeight, startY, startWidth, startX) => (e) => {
+    const handleMouseMove: HandleMouseMove = (startHeight, startY, startWidth, startX) => (e: Event) => {
+      if (!(e instanceof MouseEvent)) return;
       handleMove(e.clientY, startHeight, startY, e.clientX, startWidth, startX);
     };
 
-    const handleTouchMove: HandleTouchMove = (startHeight, startY, startWidth, startX) => (e) => {
+    const handleTouchMove: HandleTouchMove = (startHeight, startY, startWidth, startX) => (e: Event) => {
       e.preventDefault();
+      if (!(e instanceof TouchEvent)) return;
       handleMove(e.touches[0].clientY, startHeight, startY, e.touches[0].clientX, startWidth, startX);
     };
 
     const handleDragEnd = (
-      handleMouseMoveInstance: (e: MouseEvent) => void,
-      handleTouchMoveInstance: (e: TouchEvent) => void,
+      handleMoveInstance: (e: Event) => void,
+      moveEvent: 'mousemove' | 'touchmove',
+      endEvent: 'mouseup' | 'touchend',
       startHeight: number,
       startWidth: number,
     ) => {
       function dragHandler() {
-        document.removeEventListener('mousemove', handleMouseMoveInstance);
-        document.removeEventListener('mouseup', dragHandler);
-        document.removeEventListener('touchmove', handleTouchMoveInstance);
-        document.removeEventListener('touchend', dragHandler);
+        document.removeEventListener(moveEvent, handleMoveInstance);
+        document.removeEventListener(endEvent, dragHandler);
         if (onDragEnd) {
           const currentWidth = parent?.current?.clientWidth || 0;
           const currentHeight = parent?.current?.clientHeight || 0;
@@ -181,20 +192,37 @@ export const useResizable = (options: ResizableProps) => {
       return dragHandler;
     };
 
-    const handleDown = (clientY: number, clientX: number) => {
+
+    const handleDown = (e: React.MouseEvent | React.TouchEvent) => {
+      if (disabled) return;
+
       const startHeight = parent?.current?.clientHeight || 0;
       const startWidth = parent?.current?.clientWidth || 0;
 
+      let moveHandler = null;
+      let moveEvent = null;
+      let endEvent = null;
+      if (e.type === 'mousedown') {
+        const { clientY, clientX } = e as React.MouseEvent;
+        moveHandler = handleMouseMove(startHeight, clientY, startWidth, clientX);
+        moveEvent = MoveEvent.MouseMove;
+        endEvent = EndEvent.MouseUp;
+      } else if (e.type === 'touchstart') {
+        const { touches } = e as React.TouchEvent;
+        const { clientY, clientX } = touches[0];
+        moveHandler = handleTouchMove(startHeight, clientY, startWidth, clientX);
+        moveEvent = MoveEvent.TouchMove;
+        endEvent = EndEvent.TouchEnd;
+      }
+
+      if (!moveHandler || !moveEvent || !endEvent) return;
+      
+      const dragEndHandler = handleDragEnd(moveHandler, moveEvent, endEvent, startHeight, startWidth);
+
       // Attach the mousemove/mouseup/touchmove/touchend listeners to the document
       // so that we can handle the case where the user drags outside of the element
-      const mouseMoveHandler = handleMouseMove(startHeight, clientY, startWidth, clientX);
-      const touchMoveHandler = handleTouchMove(startHeight, clientY, startWidth, clientX);
-      const dragEndHandler = handleDragEnd(mouseMoveHandler, touchMoveHandler, startHeight, startWidth);
-
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', dragEndHandler);
-      document.addEventListener('touchmove', touchMoveHandler, { passive: false });
-      document.addEventListener('touchend', dragEndHandler);
+      document.addEventListener(moveEvent, moveHandler, { passive: false });
+      document.addEventListener(endEvent, dragEndHandler);
     };
 
     let cursor;
@@ -215,13 +243,8 @@ export const useResizable = (options: ResizableProps) => {
     };
 
     return {
-      onMouseDown: (e: React.MouseEvent) => {
-        handleDown(e.clientY, e.clientX);
-      },
-      onTouchStart: (e: React.TouchEvent) => {
-        e.preventDefault();
-        handleDown(e.touches[0].clientY, e.touches[0].clientX);
-      },
+      onMouseDown: handleDown,
+      onTouchStart: handleDown,
       style,
     };
   };
