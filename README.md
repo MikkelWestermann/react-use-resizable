@@ -1,6 +1,6 @@
 # React Resizable Hook
 
-A lightweight, hooks-based, easy-to-use alternative to [react-resizable](https://www.npmjs.com/package/react-resizable).
+A lightweight (1.3kB gzipped!), hooks-based, easy-to-use alternative to [react-resizable](https://www.npmjs.com/package/react-resizable).
 
 Check out the **[demo](https://mikkelwestermann.github.io/react-use-resizable/)**
 
