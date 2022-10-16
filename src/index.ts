@@ -82,7 +82,10 @@ export const useResizable = (options: ResizableProps) => {
     };
   };
 
-  const getHandleProps = (handleProps: ResizeHandleProps) => {
+  const getHandleProps = (handleProps?: ResizeHandleProps) => {
+    if (!handleProps) {
+      handleProps = {};
+    }
     const {
       parent = parentRef,
       interval = 1,
