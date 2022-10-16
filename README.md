@@ -69,7 +69,7 @@ A simple example of how to use the hook:
 
 ```jsx
 import React from 'react';
-import useResizable from 'react-use-resizable';
+import { useResizable } from 'react-use-resizable';
 
 const FreeMoving = () => {
   const { getRootProps, getHandleProps } = useResizable({
