@@ -49,7 +49,7 @@ Most of these properties can be overridden for each handle by passing passing an
 | `onDragStart` | `function` | A callback function that is called when the component starts resizing | Yes | `() => {}` |
 | `disabled` | `boolean` | Whether the component should be resizable | Yes | `false` |
 | `interval` | `number` | The interval at which the resize will occur (i.e. which sizes the component will snap to) | Yes | `1` |
-| `parent` | `HTMlDivElement` | The parent element of the handle | Yes | `rootRef.current` |
+| `parent` | `RefObject<HTMLDivElement>` | A ref to the parent element of the handle | Yes | `null` |
 | `reverse` | `boolean` | Whether the handle should be reversed | Yes | `false` |
 
 Passing the same property to both the hook and the `getHandleProps` function will override the hook's property with the `getHandleProps` property.
