@@ -14,8 +14,8 @@ type SharedProps = {
 
 export interface ResizableProps extends SharedProps {
   interval?: number;
-  initialHeight?: number;
-  initialWidth?: number;
+  initialHeight?: number | string;
+  initialWidth?: number | string;
 }
 
 export interface ResizeHandleProps extends SharedProps {
