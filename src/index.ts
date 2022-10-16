@@ -7,7 +7,7 @@ type SharedProps = {
   minWidth?: number;
   lockHorizontal?: boolean;
   lockVertical?: boolean;
-  onMove?: (values: MoveValues) => void;
+  onResize?: (values: MoveValues) => void;
   onDragEnd?: (values: MoveValues) => void;
   disabled?: boolean;
 };
@@ -94,7 +94,7 @@ export const useResizable = (options: ResizableProps) => {
       reverse,
       lockHorizontal,
       lockVertical,
-      onMove,
+      onResize,
       onDragEnd,
       minHeight = 0,
       minWidth = 0,
@@ -152,8 +152,8 @@ export const useResizable = (options: ResizableProps) => {
         }
       }
 
-      if (onMove) {
-        onMove({
+      if (onResize) {
+        onResize({
           newHeight: roundedHeight,
           heightDiff: roundedHeight - currentHeight,
           newWidth: roundedWidth,
