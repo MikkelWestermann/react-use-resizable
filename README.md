@@ -51,7 +51,7 @@ Most of these properties can be overridden for each handle by passing passing an
 | `disabled` | `boolean` | Whether the component should be resizable | Yes | `false` |
 | `interval` | `number` | The interval at which the resize will occur (i.e. which sizes the component will snap to) | Yes | `1` |
 | `maintainAspectRatio` | `boolean` | Whether the component should maintain its aspect ratio (ratio between `initialHeight` and `initialWidth`) when resizing | Yes | `false` |
-| `parent` | `RefObject<HTMLDivElement>` | A ref to the parent element of the handle | Yes | `null` |
+| `parent` | `RefObject<HTMLElement>` | A ref to the parent element of the handle | Yes | `null` |
 | `reverse` | `boolean` | Whether the handle should be reversed | Yes | `false` |
 
 Passing the same property to both the hook and the `getHandleProps` function will override the hook's property with the `getHandleProps` property.
