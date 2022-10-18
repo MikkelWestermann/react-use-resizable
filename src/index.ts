@@ -21,7 +21,7 @@ export interface ResizableProps extends SharedProps {
 }
 
 export interface ResizeHandleProps extends SharedProps {
-  parent?: React.RefObject<HTMLDivElement>;
+  parent?: React.RefObject<HTMLElement>;
   interval?: number;
   reverse?: boolean;
 }
