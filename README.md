@@ -34,6 +34,7 @@ The hooks behavior can be customized by passing an options object to the hook. T
 | `interval` | `number` | The interval at which the resize will occur (i.e. which sizes the component will snap to) | Yes | `1` |
 | `initialHeight` | `number` | The initial height of the component | Yes | `100` |
 | `initialWidth` | `number` | The initial width of the component | Yes | `100` |
+| `maintainAspectRatio` | `boolean` | Whether the component should maintain its aspect ratio (ratio between `initialHeight` and `initialWidth`) when resizing | Yes | `false` |
 
 Most of these properties can be overridden for each handle by passing passing an options object to the `getHandleProps` function. The options object can have the following properties:
 | Property | Type | Description | Optional | Default |
@@ -49,6 +50,7 @@ Most of these properties can be overridden for each handle by passing passing an
 | `onDragStart` | `function` | A callback function that is called when the component starts resizing | Yes | `() => {}` |
 | `disabled` | `boolean` | Whether the component should be resizable | Yes | `false` |
 | `interval` | `number` | The interval at which the resize will occur (i.e. which sizes the component will snap to) | Yes | `1` |
+| `maintainAspectRatio` | `boolean` | Whether the component should maintain its aspect ratio (ratio between `initialHeight` and `initialWidth`) when resizing | Yes | `false` |
 | `parent` | `RefObject<HTMLDivElement>` | A ref to the parent element of the handle | Yes | `null` |
 | `reverse` | `boolean` | Whether the handle should be reversed | Yes | `false` |
 
