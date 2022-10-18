@@ -1,6 +1,6 @@
 {
   "name": "react-use-resizable",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "A react hook for creating resizable elements",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
