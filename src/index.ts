@@ -11,6 +11,7 @@ type SharedProps = {
   onDragEnd?: (values: MoveValues) => void;
   onDragStart?: (values: MoveValues) => void;
   disabled?: boolean;
+  maintainAspectRatio?: boolean;
 };
 
 export interface ResizableProps extends SharedProps {
@@ -101,6 +102,7 @@ export const useResizable = (options: ResizableProps) => {
       minHeight = 0,
       minWidth = 0,
       disabled = false,
+      maintainAspectRatio = false,
     } = { ...props, ...handleProps };
 
     const handleMove = (
@@ -116,6 +118,7 @@ export const useResizable = (options: ResizableProps) => {
       const currentHeight = parent?.current?.clientHeight || 0;
       let roundedHeight = currentHeight;
       let roundedWidth = currentWidth;
+
       if (!lockVertical) {
         const newHeight = startHeight + (clientY - startY) * (reverse ? -1 : 1);
         // Round height to nearest interval
@@ -151,6 +154,22 @@ export const useResizable = (options: ResizableProps) => {
 
         if (parent?.current) {
           parent.current.style.width = `${roundedWidth}px`;
+        }
+      }
+
+      if (maintainAspectRatio) {
+        const aspectRatio = currentWidth / currentHeight;
+        const newAspectRatio = roundedWidth / roundedHeight;
+        if (newAspectRatio > aspectRatio) {
+          roundedWidth = roundedHeight * aspectRatio;
+          if (parent?.current) {
+            parent.current.style.width = `${roundedWidth}px`;
+          }
+        } else {
+          roundedHeight = roundedWidth / aspectRatio;
+          if (parent?.current) {
+            parent.current.style.height = `${roundedHeight}px`;
+          }
         }
       }
 
